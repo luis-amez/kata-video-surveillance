@@ -1,7 +1,7 @@
 {
-  "name": "ts-eslint-prettier-jest-minimal",
+  "name": "kata-video-surveillance",
   "version": "1.0.0",
-  "description": "TypeScript template with ESLint, Prettier and Jest",
+  "description": "Practice exercise about using different kind of doubles for testing",
   "main": "lib/index.js",
   "scripts": {
     "prepare": "husky install",
@@ -27,7 +27,7 @@
     "upgrade": "ncu -i",
     "upgrade:all": "ncu -u"
   },
-  "author": "Softwarecrafters.io",
+  "author": "Luis Amez",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "30.0.0",
