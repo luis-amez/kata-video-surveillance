@@ -3,45 +3,45 @@ import { MotionSensor, VideoRecorder } from '../core/videoInterface';
 
 describe('The video controller', () => {
   it('stops the recording when there is no motion', () => {
-    let recordingStopped = false;
-    const spyStopRecording = () => (recordingStopped = true);
-    const motionSensor = new FakeMotionSensor();
-    const videoRecorder = new FakeVideoRecorder();
-    videoRecorder.stopRecording = spyStopRecording;
+    const motionSensor = new StubMotionSensor();
+    motionSensor.motion = false;
+    const videoRecorder = new SpyVideoRecorder();
     const videoController = new VideoController(motionSensor, videoRecorder);
 
     videoController.toggleRecording();
 
-    expect(recordingStopped).toBeTruthy();
+    expect(videoRecorder.stoppedRecording).toBeTruthy();
   });
 
   it('starts the recording when there is motion', () => {
-    let recordingStarted = false;
-    const spyStartRecording = () => (recordingStarted = true);
-    const motionSensor = new FakeMotionSensor();
-    motionSensor.isDetectingMotion = () => true;
-    const videoRecorder = new FakeVideoRecorder();
-    videoRecorder.startRecording = spyStartRecording;
+    const motionSensor = new StubMotionSensor();
+    motionSensor.motion = true;
+    const videoRecorder = new SpyVideoRecorder();
     const videoController = new VideoController(motionSensor, videoRecorder);
 
     videoController.toggleRecording();
 
-    expect(recordingStarted).toBeTruthy();
+    expect(videoRecorder.startedRecording).toBeTruthy();
   });
 });
 
-class FakeMotionSensor implements MotionSensor {
+class StubMotionSensor implements MotionSensor {
+  motion = false;
+
   isDetectingMotion() {
-    return false;
+    return this.motion;
   }
 }
 
-class FakeVideoRecorder implements VideoRecorder {
+class SpyVideoRecorder implements VideoRecorder {
+  startedRecording = false;
+  stoppedRecording = false;
+
   startRecording() {
-    console.log('Recording started!');
+    this.startedRecording = true;
   }
 
   stopRecording() {
-    console.log('Recording stopped!');
+    this.stoppedRecording = true;
   }
 }
