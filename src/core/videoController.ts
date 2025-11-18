@@ -7,7 +7,12 @@ export class VideoController {
   ) {}
 
   public toggleRecording() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    this.motionSensor.isDetectingMotion() ? this.videoRecorder.startRecording() : this.videoRecorder.stopRecording();
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      this.motionSensor.isDetectingMotion() ? this.videoRecorder.startRecording() : this.videoRecorder.stopRecording();
+    } catch (error) {
+      this.videoRecorder.stopRecording();
+      console.error(error);
+    }
   }
 }
