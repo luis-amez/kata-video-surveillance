@@ -1,10 +1,23 @@
 import { MotionSensor, VideoRecorder } from './videoInterface';
 
 export class VideoController {
+  intervalId: NodeJS.Timeout | undefined;
+  readonly lapseInMilliseconds = 1000;
+
   constructor(
     private motionSensor: MotionSensor,
     private videoRecorder: VideoRecorder
   ) {}
+
+  public start() {
+    this.intervalId = setInterval(() => {
+      this.toggleRecording();
+    }, this.lapseInMilliseconds);
+  }
+
+  public stop() {
+    clearInterval(this.intervalId);
+  }
 
   public toggleRecording() {
     try {
